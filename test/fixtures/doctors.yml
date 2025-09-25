@@ -1,0 +1,11 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  first_name: Доктор Иван
+  last_name: Иванов
+  middle_name: Иванович
+
+two:
+  first_name: Доктор Анна
+  last_name: Петрова
+  middle_name: Сергеевна

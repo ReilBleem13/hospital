@@ -1,0 +1,13 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  patient: one
+  formula: mifflin_san_jeor
+  value: 1800.5
+  computed_at: <%= 1.day.ago %>
+
+two:
+  patient: two
+  formula: harris_benedict
+  value: 1750.25
+  computed_at: <%= 2.days.ago %>
