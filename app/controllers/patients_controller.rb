@@ -18,6 +18,12 @@ class PatientsController < ApplicationController
   end
 
   def create
+    doctor_ids = patient_params[:doctor_ids] || []
+    unless Doctor.where(id: doctor_ids).count == doctor_ids.size
+      render json: { error: "One or more doctors not found" }, status: :unprocessable_entity
+      return
+    end
+
     @patient = Patient.new(patient_params)
     if @patient.save
       render json: {
