@@ -122,7 +122,6 @@ class PatientsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should get BMI" do
-    # Создаем мок-объект для BmiClient
     original_new = BmiClient.method(:new)
     mock_client = Object.new
     def mock_client.fetch_bmi(weight, height)
@@ -137,7 +136,27 @@ class PatientsControllerTest < ActionDispatch::IntegrationTest
     json_response = JSON.parse(response.body)
     assert_equal 23.44, json_response["bmi"]
     
-    # Восстанавливаем оригинальный метод
     BmiClient.define_singleton_method(:new, original_new)
+  end
+
+  test "should not create patient with non-existent doctor" do
+    invalid_doctor_id = 99999
+    patient_attributes = {
+      first_name: "Анна",
+      last_name: "Петрова",
+      birthday: "1995-05-15",
+      gender: "female",
+      height: 165,
+      weight: 60,
+      doctor_ids: [invalid_doctor_id]
+    }
+
+    assert_no_difference("Patient.count") do
+      post patients_url, params: { patient: patient_attributes }
+    end
+
+    assert_response :unprocessable_entity
+    json_response = JSON.parse(response.body)
+    assert_includes json_response["error"], "doctor"
   end
 end
